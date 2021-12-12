@@ -5,7 +5,6 @@ import ru.geekbrains.mapper.ControllerMapper;
 import ru.geekbrains.mapper.RequestMappingController;
 import ru.geekbrains.mapper.SocketServerControllerMapper;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.*;
@@ -46,7 +45,6 @@ public class ApplicationLoaderWithScanningControllers extends SimpleApplicationL
                                         .getAnnotation(RequestMappingController.class));
                                     controllerMapper.addRequestController(annotation.path(),
                                             (RequestController) controllerClass.newInstance());
-                                    System.out.println(annotation.path());
                                 }
                             }
                         } catch (ClassNotFoundException e) {

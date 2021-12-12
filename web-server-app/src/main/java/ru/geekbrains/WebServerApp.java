@@ -1,7 +1,6 @@
 package ru.geekbrains;
 
 import ru.geekbrains.loader.ApplicationLoaderWithScanningControllers;
-import ru.geekbrains.loader.SimpleApplicationLoader;
 
 /**
  * За основу архитектуры Вэб сервера взят распространенный архитектурный шаблон MVC, а именно его реализация встречаемая

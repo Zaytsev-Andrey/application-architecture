@@ -1,6 +1,6 @@
 package ru.geekbrains.loader;
 
-import ru.geekbrains.handler.SocketHandlerManager;
+import ru.geekbrains.handler.HandlerManager;
 import ru.geekbrains.mapper.ControllerMapper;
 import ru.geekbrains.resolver.FileTemplateResolver;
 import ru.geekbrains.resolver.TemplateResolver;
@@ -23,7 +23,7 @@ abstract public class AbstractApplicationLoader {
             ControllerMapper controllerMapper = loadRequestControllersToControllerMapper();
             TemplateResolver templateResolver = new FileTemplateResolver(properties.getProperty("template.prefix"),
                     properties.getProperty("template.suffix"));
-            SocketHandlerManager handlerManager = loadSocketHandlerManager(controllerMapper, templateResolver);
+            HandlerManager handlerManager = loadSocketHandlerManager(controllerMapper, templateResolver);
             Server server = loadServer(handlerManager);
             server.start();
         } catch (IOException e) {
@@ -41,8 +41,8 @@ abstract public class AbstractApplicationLoader {
 
     abstract public ControllerMapper loadRequestControllersToControllerMapper();
 
-    abstract public SocketHandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
-                                                                  TemplateResolver templateResolver);
+    abstract public HandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
+                                                            TemplateResolver templateResolver);
 
-    abstract public Server loadServer(SocketHandlerManager handlerManager);
+    abstract public Server loadServer(HandlerManager handlerManager);
 }
