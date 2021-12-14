@@ -1,6 +1,8 @@
 package ru.geekbrains.loader;
 
 import ru.geekbrains.handler.HandlerManager;
+import ru.geekbrains.loader.config.Config;
+import ru.geekbrains.loader.config.ConfigFactory;
 import ru.geekbrains.mapper.ControllerMapper;
 import ru.geekbrains.resolver.FileTemplateResolver;
 import ru.geekbrains.resolver.TemplateResolver;
@@ -15,16 +17,15 @@ import java.util.Properties;
  */
 abstract public class AbstractApplicationLoader {
 
-    public final String propertyFile = "application.properties";
-
-    public void load() {
+    public void load(String[] args) {
         try {
-            Properties properties = loadProperties();
+            Config config = loadProperties(args);
             ControllerMapper controllerMapper = loadRequestControllersToControllerMapper();
-            TemplateResolver templateResolver = new FileTemplateResolver(properties.getProperty("template.prefix"),
-                    properties.getProperty("template.suffix"));
-            HandlerManager handlerManager = loadSocketHandlerManager(controllerMapper, templateResolver);
-            Server server = loadServer(handlerManager);
+            TemplateResolver templateResolver = new FileTemplateResolver(config.getTemplatePrefix(),
+                    config.getTemplateSuffix());
+            HandlerManager handlerManager = loadSocketHandlerManager(controllerMapper, templateResolver,
+                    config.getHttpVersion());
+            Server server = loadServer(config.getServerPort(), handlerManager);
             server.start();
         } catch (IOException e) {
             System.out.println("Web Server was not loaded");
@@ -32,17 +33,15 @@ abstract public class AbstractApplicationLoader {
         }
     }
 
-    public Properties loadProperties() throws IOException {
-        Properties properties = new Properties();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile);
-        properties.load(inputStream);
-        return properties;
+    public Config loadProperties(String[] args) throws IOException {
+        return ConfigFactory.create(args);
     }
 
     abstract public ControllerMapper loadRequestControllersToControllerMapper();
 
     abstract public HandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
-                                                            TemplateResolver templateResolver);
+                                                            TemplateResolver templateResolver,
+                                                            String httpVersion);
 
-    abstract public Server loadServer(HandlerManager handlerManager);
+    abstract public Server loadServer(int port, HandlerManager handlerManager);
 }

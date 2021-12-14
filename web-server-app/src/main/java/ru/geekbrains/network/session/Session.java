@@ -4,32 +4,11 @@ import ru.geekbrains.network.request.HttpCookies;
 
 import java.util.UUID;
 
-/**
- * Класс для хранения HTTP сессии
- */
-public class Session {
+public interface Session {
 
-    private UUID id;
+    UUID getId();
 
-    private Principal principal;
+    Principal getPrincipal();
 
-    private HttpCookies newCookies;
-
-    public Session(Principal principal) {
-        this.id = UUID.randomUUID();
-        this.principal = principal;
-        this.newCookies = new HttpCookies();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Principal getPrincipal() {
-        return principal;
-    }
-
-    public HttpCookies getNewCookies() {
-        return newCookies;
-    }
+    HttpCookies getNewCookies();
 }

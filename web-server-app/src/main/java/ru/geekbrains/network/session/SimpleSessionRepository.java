@@ -10,15 +10,16 @@ import java.util.UUID;
  */
 public class SimpleSessionRepository implements SessionRepository {
 
-    private Map<UUID, Session> sessions = new HashMap<>();
+    private final Map<UUID, Session> sessions = new HashMap<>();
 
     @Override
     public Optional<Session> findById(UUID id) {
-        return Optional.of(sessions.get(id));
+        return Optional.ofNullable(sessions.get(id));
     }
 
     @Override
-    public void save(Session session) {
+    public Session save(Session session) {
         sessions.put(session.getId(), session);
+        return session;
     }
 }

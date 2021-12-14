@@ -2,9 +2,7 @@ package ru.geekbrains.network;
 
 import ru.geekbrains.network.io.HttpRequestDto;
 import ru.geekbrains.network.request.*;
-import ru.geekbrains.network.session.Principal;
-import ru.geekbrains.network.session.Session;
-import ru.geekbrains.network.session.SessionRepository;
+import ru.geekbrains.network.session.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -33,30 +31,23 @@ public class HttpRequestManager implements RequestManager {
             if (sessionOpt.isPresent()) {
                 session = sessionOpt.get();
             } else {
-                session = newSession();
+                session = sessionRepository.save(SessionFactory.create());
             }
         } else {
-            session = newSession();
+            session = sessionRepository.save(SessionFactory.create());
         }
 
-        HttpRequest request = new HttpRequest.HttpRequestBuilder()
-                .method(requestDto.getMethod())
-                .url(requestDto.getUrl())
-                .headers(new HttpHeaders(requestDto.getHeaders()))
-                .cookies(new HttpCookies(requestDto.getCookies()))
-                .body(requestDto.getBody())
-                .session(session)
+        HttpRequest request = new HttpRequest.Builder()
+                .withMethod(requestDto.getMethod())
+                .withUrl(requestDto.getUrl())
+                .withVersion(requestDto.getVersion())
+                .withHeaders(new HttpHeaders(requestDto.getHeaders()))
+                .withCookies(new HttpCookies(requestDto.getCookies()))
+                .withBody(requestDto.getBody())
+                .withSession(session)
                 .build();
 
         return request;
     }
 
-    private Session newSession() {
-        Session session = new Session(new Principal("Friend", ""));
-        sessionRepository.save(session);
-        String sessionId = session.getId().toString();
-        HttpCookies cookies = session.getNewCookies();
-        cookies.add("SESSIONID", sessionId);
-        return session;
-    }
 }

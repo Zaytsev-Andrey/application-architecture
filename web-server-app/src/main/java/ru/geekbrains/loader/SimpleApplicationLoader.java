@@ -30,15 +30,16 @@ public class SimpleApplicationLoader extends AbstractApplicationLoader {
 
     @Override
     public HandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
-                                                   TemplateResolver templateResolver) {
+                                                   TemplateResolver templateResolver,
+                                                   String httpVersion) {
         SessionRepository sessionRepository = new SimpleSessionRepository();
         RequestManager requestManager = new HttpRequestManager(sessionRepository);
-        ResponseManager responseManager = new HttpResponseManager();
+        ResponseManager responseManager = new HttpResponseManager(httpVersion);
         return new HttpHandlerManager(controllerMapper, templateResolver, requestManager, responseManager);
     }
 
     @Override
-    public Server loadServer(HandlerManager handlerManager) {
-        return new SocketServer(handlerManager);
+    public Server loadServer(int port, HandlerManager handlerManager) {
+        return new SocketServer(port, handlerManager);
     }
 }

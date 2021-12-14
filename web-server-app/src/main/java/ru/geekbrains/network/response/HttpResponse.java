@@ -9,9 +9,9 @@ import ru.geekbrains.network.request.HttpHeaders;
  */
 public class HttpResponse {
 
-    private HttpStatus status;
+    private String version;
 
-    private HttpContentType contentType;
+    private HttpStatus status;
 
     private HttpHeaders headers;
 
@@ -19,57 +19,58 @@ public class HttpResponse {
 
     private HttpCookies setCookies;
 
-    public static class HttpResponseBuilder {
+    public static class Builder {
 
-        private HttpStatus status;
+        private final HttpResponse httpResponse;
 
-        private HttpContentType contentType;
-
-        private String body;
-
-        private HttpCookies setCookies;
-
-        public HttpResponseBuilder() {
+        public Builder() {
+            this.httpResponse = new HttpResponse();
         }
 
-        public HttpResponseBuilder status(HttpStatus status) {
-            this.status = status;
+        public Builder withVersion(String version) {
+            httpResponse.version = version;
             return this;
         }
 
-        public HttpResponseBuilder contentType(HttpContentType contentType) {
-            this.contentType = contentType;
+        public Builder withStatus(HttpStatus status) {
+            httpResponse.status = status;
             return this;
         }
 
-        public HttpResponseBuilder body(String body) {
-            this.body = body;
+        public Builder withHeaders(HttpHeaders headers) {
+            httpResponse.headers = headers;
             return this;
         }
 
-        public HttpResponseBuilder setCookies(HttpCookies setCookies) {
-            this.setCookies = setCookies;
+        public Builder withBody(String body) {
+            httpResponse.body = body;
+            return this;
+        }
+
+        public Builder withSetCookies(HttpCookies setCookies) {
+            httpResponse.setCookies = setCookies;
             return this;
         }
 
         public HttpResponse build() {
-            return new HttpResponse(this);
+            return httpResponse;
         }
     }
 
-    private HttpResponse(HttpResponseBuilder builder) {
-        this.status = builder.status;
-        this.contentType = builder.contentType;
-        this.body = builder.body;
-        this.setCookies = builder.setCookies;
+    private HttpResponse() {
+
+    }
+
+    public String getVersion() {
+        return version;
     }
 
     public HttpStatus getStatus() {
         return status;
     }
 
-    public HttpContentType getContentType() {
-        return contentType;
+    public HttpHeaders getHeaders() {
+        return headers;
     }
 
     public String getBody() {

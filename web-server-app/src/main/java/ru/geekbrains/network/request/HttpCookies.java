@@ -30,6 +30,6 @@ public class HttpCookies {
     public String toString() {
         return cookies.entrySet().stream()
                 .map(entry -> entry.getKey() + "=" + entry.getValue())
-                .collect(Collectors.joining("; "));
+                .collect(Collectors.joining("; ", "Set-Cookie: ", ""));
     }
 }

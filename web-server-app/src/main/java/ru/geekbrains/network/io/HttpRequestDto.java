@@ -3,6 +3,7 @@ package ru.geekbrains.network.io;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Класс для преобразования входящего потока в объект Java
@@ -12,6 +13,8 @@ public class HttpRequestDto {
     private String method;
 
     private String url;
+
+    private String version;
 
     private Map<String, List<String>> headers;
 
@@ -41,6 +44,14 @@ public class HttpRequestDto {
         this.url = url;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     public Map<String, List<String>> getHeaders() {
         return headers;
     }
@@ -51,6 +62,10 @@ public class HttpRequestDto {
 
     public Map<String, String> getCookies() {
         return cookies;
+    }
+
+    public Optional<String> getCookieByName(String name) {
+        return Optional.ofNullable(cookies.get(name));
     }
 
     public void setCookies(Map<String, String> cookies) {

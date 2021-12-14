@@ -13,17 +13,20 @@ import java.util.concurrent.Executors;
  */
 public class SocketServer implements Server {
 
-    private ExecutorService service = Executors.newCachedThreadPool();
+    private final ExecutorService service = Executors.newCachedThreadPool();
 
-    private HandlerManager handlerManager;
+    private final HandlerManager handlerManager;
 
-    public SocketServer(HandlerManager handlerManager) {
+    private final int port;
+
+    public SocketServer(int port, HandlerManager handlerManager) {
+        this.port = port;
         this.handlerManager = handlerManager;
     }
 
     @Override
     public void start() {
-        try (ServerSocket serverSocket = new ServerSocket(8080)) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server started!");
 
             while (true) {

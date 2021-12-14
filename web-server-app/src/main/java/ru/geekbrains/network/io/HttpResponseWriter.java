@@ -17,9 +17,11 @@ public class HttpResponseWriter implements AutoCloseable {
     }
 
     public void write(HttpResponse response) throws IOException {
-        printWriter.println("HTTP/1.1 " + response.getStatus());
-        printWriter.println("Content-Type: " + response.getContentType());
-        printWriter.println("Set-Cookie: " + response.getSetCookies());
+        printWriter.print(response.getVersion());
+        printWriter.print(" ");
+        printWriter.println(response.getStatus());
+        printWriter.print(response.getHeaders());
+        printWriter.println(response.getSetCookies());
         printWriter.println();
         printWriter.println(response.getBody());
         printWriter.flush();

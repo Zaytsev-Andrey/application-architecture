@@ -7,5 +7,5 @@ public interface SessionRepository {
 
     Optional<Session> findById(UUID id);
 
-    void save(Session session);
+    Session save(Session session);
 }

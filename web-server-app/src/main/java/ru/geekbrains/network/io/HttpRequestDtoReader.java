@@ -21,10 +21,11 @@ public class HttpRequestDtoReader {
 
         Deque<String> requestLines = requestReader.readAllLines();
 
-        // Parse method and url
+        // Parse method, url and version
         String[] firstLine = requestLines.pollFirst().split(" ");
         requestDto.setMethod(firstLine[0]);
         requestDto.setUrl(firstLine[1]);
+        requestDto.setVersion(firstLine[2]);
 
         //Parse headers and cookies
         while (!requestLines.isEmpty()) {

@@ -60,6 +60,6 @@ import ru.geekbrains.loader.ApplicationLoaderWithScanningControllers;
 public class WebServerApp {
 
     public static void main(String[] args) {
-        new ApplicationLoaderWithScanningControllers().load();
+        new ApplicationLoaderWithScanningControllers().load(args);
     }
 }

@@ -11,6 +11,8 @@ public class HttpRequest {
 
     private String url;
 
+    private String version;
+
     private HttpHeaders headers;
 
     private HttpCookies cookies;
@@ -19,66 +21,56 @@ public class HttpRequest {
 
     private Session session;
 
-    public static class HttpRequestBuilder {
+    public static class Builder {
 
-        private String method;
+        private final HttpRequest httpRequest;
 
-        private String url;
-
-        private HttpHeaders headers;
-
-        private HttpCookies cookies;
-
-        private String body;
-
-        private Session session;
-
-        public HttpRequestBuilder() {
-
+        public Builder() {
+            this.httpRequest = new HttpRequest();
         }
 
-        public HttpRequestBuilder method(String method) {
-            this.method = method;
+        public Builder withMethod(String method) {
+            httpRequest.method = method;
             return this;
         }
 
-        public HttpRequestBuilder url(String url) {
-            this.url = url;
+        public Builder withUrl(String url) {
+            httpRequest.url = url;
             return  this;
         }
 
-        public HttpRequestBuilder headers(HttpHeaders headers) {
-            this.headers = headers;
+        public Builder withVersion(String version) {
+            httpRequest.version = version;
             return this;
         }
 
-        public HttpRequestBuilder cookies(HttpCookies cookies) {
-            this.cookies = cookies;
+        public Builder withHeaders(HttpHeaders headers) {
+            httpRequest.headers = headers;
             return this;
         }
 
-        public HttpRequestBuilder body(String body) {
-            this.body = body;
+        public Builder withCookies(HttpCookies cookies) {
+            httpRequest.cookies = cookies;
             return this;
         }
 
-        public HttpRequestBuilder session(Session session) {
-            this.session = session;
+        public Builder withBody(String body) {
+            httpRequest.body = body;
+            return this;
+        }
+
+        public Builder withSession(Session session) {
+            httpRequest.session = session;
             return this;
         }
 
         public HttpRequest build() {
-            return new HttpRequest(this);
+            return httpRequest;
         }
     }
 
-    private HttpRequest(HttpRequestBuilder builder) {
-        this.method = builder.method;
-        this.url = builder.url;
-        this.headers = builder.headers;
-        this.cookies = builder.cookies;
-        this.body = builder.body;
-        this.session = builder.session;
+    private HttpRequest() {
+
     }
 
     public String getMethod() {
