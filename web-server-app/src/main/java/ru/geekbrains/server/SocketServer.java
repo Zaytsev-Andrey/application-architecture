@@ -1,6 +1,6 @@
 package ru.geekbrains.server;
 
-import ru.geekbrains.handler.SocketHandlerManager;
+import ru.geekbrains.handler.HandlerManager;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,24 +13,27 @@ import java.util.concurrent.Executors;
  */
 public class SocketServer implements Server {
 
-    private ExecutorService service = Executors.newCachedThreadPool();
+    private final ExecutorService service = Executors.newCachedThreadPool();
 
-    private SocketHandlerManager handlerManager;
+    private final HandlerManager handlerManager;
 
-    public SocketServer(SocketHandlerManager handlerManager) {
+    private final int port;
+
+    public SocketServer(int port, HandlerManager handlerManager) {
+        this.port = port;
         this.handlerManager = handlerManager;
     }
 
     @Override
     public void start() {
-        try (ServerSocket serverSocket = new ServerSocket(8080)) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server started!");
 
             while (true) {
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected!");
 
-                service.submit(handlerManager.getSocketHandler(socket));
+                service.submit(handlerManager.newSocketHandler(socket));
 //                new Thread(() -> handleRequest(socket)).start();
             }
         } catch (IOException e) {

@@ -1,10 +1,16 @@
 package ru.geekbrains.loader;
 
 import ru.geekbrains.controller.HomePageRequestController;
-import ru.geekbrains.handler.SimpleSocketHandlerManager;
-import ru.geekbrains.handler.SocketHandlerManager;
+import ru.geekbrains.handler.HttpHandlerManager;
+import ru.geekbrains.handler.HandlerManager;
 import ru.geekbrains.mapper.ControllerMapper;
 import ru.geekbrains.mapper.SocketServerControllerMapper;
+import ru.geekbrains.network.HttpRequestManager;
+import ru.geekbrains.network.HttpResponseManager;
+import ru.geekbrains.network.RequestManager;
+import ru.geekbrains.network.ResponseManager;
+import ru.geekbrains.network.session.SessionRepository;
+import ru.geekbrains.network.session.SimpleSessionRepository;
 import ru.geekbrains.resolver.TemplateResolver;
 import ru.geekbrains.server.Server;
 import ru.geekbrains.server.SocketServer;
@@ -23,13 +29,17 @@ public class SimpleApplicationLoader extends AbstractApplicationLoader {
     }
 
     @Override
-    public SocketHandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
-                                                         TemplateResolver templateResolver) {
-        return new SimpleSocketHandlerManager(controllerMapper, templateResolver);
+    public HandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
+                                                   TemplateResolver templateResolver,
+                                                   String httpVersion) {
+        SessionRepository sessionRepository = new SimpleSessionRepository();
+        RequestManager requestManager = new HttpRequestManager(sessionRepository);
+        ResponseManager responseManager = new HttpResponseManager(httpVersion);
+        return new HttpHandlerManager(controllerMapper, templateResolver, requestManager, responseManager);
     }
 
     @Override
-    public Server loadServer(SocketHandlerManager handlerManager) {
-        return new SocketServer(handlerManager);
+    public Server loadServer(int port, HandlerManager handlerManager) {
+        return new SocketServer(port, handlerManager);
     }
 }
