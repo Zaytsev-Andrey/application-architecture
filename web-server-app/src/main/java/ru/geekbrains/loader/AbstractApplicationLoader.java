@@ -1,6 +1,7 @@
 package ru.geekbrains.loader;
 
 import ru.geekbrains.handler.HandlerManager;
+import ru.geekbrains.handler.method_handler.MethodHandler;
 import ru.geekbrains.loader.config.Config;
 import ru.geekbrains.loader.config.ConfigFactory;
 import ru.geekbrains.mapper.ControllerMapper;
@@ -15,7 +16,7 @@ import java.util.Properties;
 /**
  * Шаблонный класс описываюший последовательность создания экземпляровклассов и установки зависимостей между ними
  */
-abstract public class AbstractApplicationLoader {
+public abstract class AbstractApplicationLoader {
 
     public void load(String[] args) {
         try {
@@ -23,8 +24,9 @@ abstract public class AbstractApplicationLoader {
             ControllerMapper controllerMapper = loadRequestControllersToControllerMapper();
             TemplateResolver templateResolver = new FileTemplateResolver(config.getTemplatePrefix(),
                     config.getTemplateSuffix());
+            MethodHandler methodHandler = loadMethodHandler();
             HandlerManager handlerManager = loadSocketHandlerManager(controllerMapper, templateResolver,
-                    config.getHttpVersion());
+                    config.getHttpVersion(), methodHandler);
             Server server = loadServer(config.getServerPort(), handlerManager);
             server.start();
         } catch (IOException e) {
@@ -37,11 +39,14 @@ abstract public class AbstractApplicationLoader {
         return ConfigFactory.create(args);
     }
 
-    abstract public ControllerMapper loadRequestControllersToControllerMapper();
+    public abstract ControllerMapper loadRequestControllersToControllerMapper();
 
-    abstract public HandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
+    public abstract MethodHandler loadMethodHandler();
+
+    public abstract HandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
                                                             TemplateResolver templateResolver,
-                                                            String httpVersion);
+                                                            String httpVersion,
+                                                            MethodHandler methodHandler);
 
-    abstract public Server loadServer(int port, HandlerManager handlerManager);
+    public abstract Server loadServer(int port, HandlerManager handlerManager);
 }

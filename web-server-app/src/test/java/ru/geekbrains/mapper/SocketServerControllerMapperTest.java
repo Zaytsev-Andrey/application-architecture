@@ -13,8 +13,8 @@ public class SocketServerControllerMapperTest {
         controllerMapper.addRequestController("/", new HomePageRequestController());
         controllerMapper.addRequestController("/contact", new ContactPageRequestController());
 
-        Assertions.assertEquals("home", controllerMapper.mapControllerToRequest("/").handleRequest());
-        Assertions.assertEquals("contact", controllerMapper.mapControllerToRequest("/contact").handleRequest());
+        Assertions.assertEquals("home", controllerMapper.mapControllerToRequest("/").doGet());
+        Assertions.assertEquals("contact", controllerMapper.mapControllerToRequest("/contact").doGet());
         Assertions.assertNull(controllerMapper.mapControllerToRequest("/cart"));
     }
 }
