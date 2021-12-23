@@ -12,7 +12,7 @@ public class ContactPageRequestController implements RequestController {
     private static final String TEMPLATE_NAME = "contact";
 
     @Override
-    public String handleRequest() {
+    public String doGet() {
         // TODO business logic and model filling
         return TEMPLATE_NAME;
     }

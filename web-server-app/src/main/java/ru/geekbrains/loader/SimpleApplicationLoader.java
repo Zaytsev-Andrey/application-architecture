@@ -3,6 +3,9 @@ package ru.geekbrains.loader;
 import ru.geekbrains.controller.HomePageRequestController;
 import ru.geekbrains.handler.HttpHandlerManager;
 import ru.geekbrains.handler.HandlerManager;
+import ru.geekbrains.handler.method_handler.GetMethodHandler;
+import ru.geekbrains.handler.method_handler.MethodHandler;
+import ru.geekbrains.handler.method_handler.PostMethodHandler;
 import ru.geekbrains.mapper.ControllerMapper;
 import ru.geekbrains.mapper.SocketServerControllerMapper;
 import ru.geekbrains.network.HttpRequestManager;
@@ -29,13 +32,22 @@ public class SimpleApplicationLoader extends AbstractApplicationLoader {
     }
 
     @Override
+    public MethodHandler loadMethodHandler() {
+        MethodHandler postHandler = new PostMethodHandler("POST");
+        MethodHandler getHandler = new GetMethodHandler("GET");
+        getHandler.setNext(postHandler);
+        return getHandler;
+    }
+
+    @Override
     public HandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
                                                    TemplateResolver templateResolver,
-                                                   String httpVersion) {
+                                                   String httpVersion,
+                                                   MethodHandler methodHandler) {
         SessionRepository sessionRepository = new SimpleSessionRepository();
         RequestManager requestManager = new HttpRequestManager(sessionRepository);
         ResponseManager responseManager = new HttpResponseManager(httpVersion);
-        return new HttpHandlerManager(controllerMapper, templateResolver, requestManager, responseManager);
+        return new HttpHandlerManager(controllerMapper, templateResolver, requestManager, responseManager, methodHandler);
     }
 
     @Override

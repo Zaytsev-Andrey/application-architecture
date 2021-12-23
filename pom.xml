@@ -12,6 +12,7 @@
     <modules>
         <module>web-server-app</module>
         <module>structural-design-patterns</module>
+        <module>behavioral-design-patterns</module>
     </modules>
 
     <properties>
