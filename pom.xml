@@ -13,6 +13,7 @@
         <module>web-server-app</module>
         <module>structural-design-patterns</module>
         <module>behavioral-design-patterns</module>
+        <module>system-patterns</module>
     </modules>
 
     <properties>
