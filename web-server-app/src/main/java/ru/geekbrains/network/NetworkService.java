@@ -9,7 +9,7 @@ public interface NetworkService {
 
     HttpRequest readRequest();
 
-    void writeResponse(Session session, Path template, HttpStatus status);
+    void writeResponse(Session session, String view, HttpStatus status);
 
     void close();
 }

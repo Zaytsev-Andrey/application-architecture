@@ -7,5 +7,5 @@ import java.nio.file.Path;
 
 public interface ResponseManager {
 
-    HttpResponse newHttpResponse(Session session, Path templatePath, HttpStatus status);
+    HttpResponse newHttpResponse(Session session, String view, HttpStatus status);
 }

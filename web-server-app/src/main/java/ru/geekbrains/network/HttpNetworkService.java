@@ -47,17 +47,16 @@ public class HttpNetworkService implements NetworkService {
     }
 
     @Override
-    public void writeResponse(Session session, Path templatePath, HttpStatus status) {
+    public void writeResponse(Session session, String view, HttpStatus status) {
 
         try {
             HttpResponseWriter responseWriter = new HttpResponseWriter(new PrintWriter(socket.getOutputStream()));
-            responseWriter.write(responseManager.newHttpResponse(session, templatePath, status));
+            responseWriter.write(responseManager.newHttpResponse(session, view, status));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(templatePath);
     }
 
     @Override
