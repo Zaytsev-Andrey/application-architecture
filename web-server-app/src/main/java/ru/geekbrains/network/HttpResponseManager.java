@@ -20,23 +20,20 @@ public class HttpResponseManager implements ResponseManager {
     }
 
     @Override
-    public HttpResponse newHttpResponse(Session session, Path templatePath, HttpStatus status) {
+    public HttpResponse newHttpResponse(Session session, String view, HttpStatus status) {
         HttpResponse httpResponse = null;
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "text/html");
         headers.add("Content-Type", "charset=utf-8");
 
-        try {
-            httpResponse = new HttpResponse.Builder()
-                    .withVersion(httpVersion)
-                    .withStatus(status)
-                    .withHeaders(headers)
-                    .withBody(String.join("\n", Files.readAllLines(templatePath)))
-                    .withSetCookies(session.getNewCookies())
-                    .build();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        httpResponse = new HttpResponse.Builder()
+                .withVersion(httpVersion)
+                .withStatus(status)
+                .withHeaders(headers)
+                .withBody(view)
+                .withSetCookies(session.getNewCookies())
+                .build();
+
         return httpResponse;
     }
 }

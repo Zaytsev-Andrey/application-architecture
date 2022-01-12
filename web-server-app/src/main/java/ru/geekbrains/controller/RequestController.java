@@ -1,18 +1,20 @@
 package ru.geekbrains.controller;
 
+import ru.geekbrains.model.Model;
+
 public interface RequestController {
 
-    String doGet();
+    String doGet(Model model);
 
-    default String doPost() {
+    default String doPost(Model model) {
         throw new UnsupportedOperationException();
     }
 
-    default String doPut() {
+    default String doPut(Model model) {
         throw new UnsupportedOperationException();
     }
 
-    default String doDelete() {
+    default String doDelete(Model model) {
         throw new UnsupportedOperationException();
     }
 }

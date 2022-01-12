@@ -2,8 +2,12 @@ package ru.geekbrains.handler;
 
 import ru.geekbrains.handler.method_handler.MethodHandler;
 import ru.geekbrains.mapper.ControllerMapper;
+import ru.geekbrains.model.Model;
+import ru.geekbrains.model.ModelFactory;
 import ru.geekbrains.network.*;
 import ru.geekbrains.resolver.TemplateResolver;
+import ru.geekbrains.view.TemplateEngine;
+import ru.geekbrains.view.TemplateEngineFactory;
 
 import java.net.Socket;
 
@@ -34,7 +38,10 @@ public class HttpHandlerManager implements HandlerManager {
     @Override
     public Runnable newSocketHandler(Socket socket) {
         NetworkService networkService = new HttpNetworkService(socket, requestManager, responseManager);
+        Model model = ModelFactory.createModel();
+        TemplateEngine templateEngine = TemplateEngineFactory.createTemplateEngine(model);
 
-        return new ServerHandler(networkService, controllerMapper, templateResolver, methodHandler);
+        return new ServerHandler(networkService, controllerMapper, templateResolver,
+                methodHandler, model, templateEngine);
     }
 }
