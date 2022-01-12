@@ -10,11 +10,17 @@ public class CliConfig implements Config {
 
     private String httpVersion;
 
+    private String requestControllerPackage;
+
+    private String methodHandlerPackage;
+
     public CliConfig(String[] args) {
         serverPort = Integer.parseInt(args[0]);
         templatePrefix = args[1];
         templateSuffix = args[2];
         httpVersion = args[3];
+        requestControllerPackage = args[4];
+        methodHandlerPackage = args[5];
     }
 
     @Override
@@ -35,5 +41,15 @@ public class CliConfig implements Config {
     @Override
     public String getHttpVersion() {
         return httpVersion;
+    }
+
+    @Override
+    public String getRequestControllerPackage() {
+        return requestControllerPackage;
+    }
+
+    @Override
+    public String getMethodHandlerPackage() {
+        return methodHandlerPackage;
     }
 }

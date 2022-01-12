@@ -11,4 +11,8 @@ public interface Config {
 
     String getHttpVersion();
 
+    String getRequestControllerPackage();
+
+    String getMethodHandlerPackage();
+
 }

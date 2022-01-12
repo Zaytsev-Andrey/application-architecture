@@ -5,7 +5,7 @@ import ru.geekbrains.model.Model;
 import ru.geekbrains.network.HttpStatus;
 import ru.geekbrains.network.io.HttpResponseDto;
 
-@Handler
+@Handler(method = "POST")
 public class PostMethodHandler extends MethodHandler {
 
     public PostMethodHandler(String method) {
