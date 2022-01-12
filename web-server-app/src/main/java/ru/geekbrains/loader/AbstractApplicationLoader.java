@@ -21,10 +21,11 @@ public abstract class AbstractApplicationLoader {
     public void load(String[] args) {
         try {
             Config config = loadProperties(args);
-            ControllerMapper controllerMapper = loadRequestControllersToControllerMapper();
+            ControllerMapper controllerMapper =
+                    loadRequestControllersToControllerMapper(config.getRequestControllerPackage());
             TemplateResolver templateResolver = new FileTemplateResolver(config.getTemplatePrefix(),
                     config.getTemplateSuffix());
-            MethodHandler methodHandler = loadMethodHandler();
+            MethodHandler methodHandler = loadMethodHandler(config.getMethodHandlerPackage());
             HandlerManager handlerManager = loadSocketHandlerManager(controllerMapper, templateResolver,
                     config.getHttpVersion(), methodHandler);
             Server server = loadServer(config.getServerPort(), handlerManager);
@@ -39,9 +40,9 @@ public abstract class AbstractApplicationLoader {
         return ConfigFactory.create(args);
     }
 
-    public abstract ControllerMapper loadRequestControllersToControllerMapper();
+    public abstract ControllerMapper loadRequestControllersToControllerMapper(String requestControllerPackage);
 
-    public abstract MethodHandler loadMethodHandler();
+    public abstract MethodHandler loadMethodHandler(String methodHandlerPackage);
 
     public abstract HandlerManager loadSocketHandlerManager(ControllerMapper controllerMapper,
                                                             TemplateResolver templateResolver,

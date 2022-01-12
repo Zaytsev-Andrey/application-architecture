@@ -13,6 +13,10 @@ class PropertyFileConfig implements Config {
 
     private String httpVersion;
 
+    private String requestControllerPackage;
+
+    private String methodHandlerPackage;
+
     public PropertyFileConfig(String propertyFile) {
         Properties properties = new Properties();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile);
@@ -27,6 +31,10 @@ class PropertyFileConfig implements Config {
                 "web-server-app/src/main/resources/templates");
         templateSuffix = properties.getProperty("template.suffix", ".html");
         httpVersion = properties.getProperty("http.version", "HTTP/1.1");
+        requestControllerPackage = properties.getProperty("controller.package",
+                "ru.geekbrains.controller");
+        methodHandlerPackage = properties.getProperty("handler.package",
+                "ru.geekbrains.handler.method_handler");
     }
 
     @Override
@@ -49,4 +57,13 @@ class PropertyFileConfig implements Config {
         return httpVersion;
     }
 
+    @Override
+    public String getRequestControllerPackage() {
+        return requestControllerPackage;
+    }
+
+    @Override
+    public String getMethodHandlerPackage() {
+        return methodHandlerPackage;
+    }
 }

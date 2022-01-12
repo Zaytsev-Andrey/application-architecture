@@ -5,7 +5,7 @@ import ru.geekbrains.model.Model;
 import ru.geekbrains.network.HttpStatus;
 import ru.geekbrains.network.io.HttpResponseDto;
 
-@Handler
+@Handler(method = "GET")
 public class GetMethodHandler extends MethodHandler {
 
     public GetMethodHandler(String method) {

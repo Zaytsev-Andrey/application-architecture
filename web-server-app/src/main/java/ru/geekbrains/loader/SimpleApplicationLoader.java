@@ -24,7 +24,7 @@ import ru.geekbrains.server.SocketServer;
  */
 public class SimpleApplicationLoader extends AbstractApplicationLoader {
     @Override
-    public ControllerMapper loadRequestControllersToControllerMapper() {
+    public ControllerMapper loadRequestControllersToControllerMapper(String requestControllerPackage) {
         ControllerMapper controllerMapper = new SocketServerControllerMapper();
         controllerMapper.addRequestController("/", new HomePageRequestController());
 
@@ -32,7 +32,7 @@ public class SimpleApplicationLoader extends AbstractApplicationLoader {
     }
 
     @Override
-    public MethodHandler loadMethodHandler() {
+    public MethodHandler loadMethodHandler(String methodHandlerPackage) {
         MethodHandler postHandler = new PostMethodHandler("POST");
         MethodHandler getHandler = new GetMethodHandler("GET");
         getHandler.setNext(postHandler);
